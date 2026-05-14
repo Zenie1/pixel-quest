@@ -164,13 +164,13 @@ function startQuestion(index) {
     total: QUESTIONS.length,
     question: q.question,
     options: q.options,
-    timeLimit: 20
+    timeLimit: 35
   };
 
   io.emit("new_question", payload);
   broadcastToAdmins("new_question", { ...payload, correct: q.correct });
 
-  let timeLeft = 20;
+  let timeLeft = 35;
   gameState.questionTimer = setInterval(() => {
     timeLeft--;
     io.emit("timer_tick", { timeLeft });
