@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pixel Quest — Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body class="admin-body">
+
+  <!-- ══ LOGIN ══ -->
+  <div id="admin-login" class="admin-screen active">
+    <div class="card login-card">
+      <div style="font-size:2.5rem">🔐</div>
+      <h2>Admin Access</h2>
+      <input id="admin-password" type="password" placeholder="Enter admin password..." />
+      <button id="admin-login-btn" class="btn btn-primary">LOGIN</button>
+      <p id="login-error" class="error-msg hidden">Wrong password. Try again.</p>
+    </div>
+  </div>
+
+  <!-- ══ DASHBOARD ══ -->
+  <div id="admin-dashboard" class="admin-screen">
+
+    <!-- Header -->
+    <header class="admin-header">
+      <div class="admin-brand">🎮 PIXEL QUEST <span class="admin-tag">ADMIN</span></div>
+      <div class="admin-controls">
+        <span id="phase-badge" class="phase-badge">LOBBY</span>
+        <button id="btn-start" class="btn btn-green">▶ START GAME</button>
+        <button id="btn-next" class="btn btn-blue hidden">⏭ NEXT QUESTION</button>
+        <button id="btn-reset" class="btn btn-red">↺ RESET</button>
+      </div>
+    </header>
+
+    <!-- Main grid -->
+    <div class="admin-grid">
+
+      <!-- Left: Players Panel -->
+      <div class="admin-panel" id="players-panel">
+        <div class="panel-header">
+          <h3>👥 Players Online</h3>
+          <span id="player-total-badge" class="count-badge">0</span>
+        </div>
+        <div id="players-list" class="players-list">
+          <p class="empty-hint">No players yet. Share the game link!</p>
+        </div>
+        <div class="game-link-box">
+          <p class="link-label">Share this link in Zoom chat:</p>
+          <div class="link-row">
+            <span id="game-link" class="game-link-text">Loading...</span>
+            <button id="copy-link-btn" class="btn btn-small">📋 Copy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Live Stats Panel -->
+      <div class="admin-panel" id="stats-panel">
+        <div class="panel-header">
+          <h3 id="stats-title">📊 Live Stats</h3>
+        </div>
+
+        <!-- Waiting state -->
+        <div id="stats-waiting" class="stats-waiting">
+          <div style="font-size:3rem">⏳</div>
+          <p>Waiting to start the game...</p>
+          <p class="hint-text">Once you click <strong>START GAME</strong>, questions will appear here in real time.</p>
+        </div>
+
+        <!-- Question display -->
+        <div id="stats-question" class="hidden">
+          <div class="current-q-meta">
+            <span id="admin-q-num">Q1 of 5</span>
+            <span id="admin-answered-count" class="answered-badge">0 answered</span>
+          </div>
+          <p id="admin-q-text" class="admin-q-text"></p>
+          <div id="admin-options-list" class="admin-options-list"></div>
+          <div id="answer-bars" class="answer-bars"></div>
+        </div>
+
+        <!-- Result display -->
+        <div id="stats-result" class="hidden">
+          <h4>Results for Q<span id="result-q-num">1</span></h4>
+          <div id="result-bars" class="answer-bars"></div>
+          <div id="result-leaderboard" class="mini-leaderboard"></div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div id="stats-leaderboard" class="hidden">
+          <h3>🏆 Final Leaderboard</h3>
+          <div id="final-lb-admin" class="final-lb"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Activity Log -->
+    <div class="activity-log-wrap">
+      <div class="panel-header">
+        <h3>📡 Live Activity Log</h3>
+        <button id="clear-log-btn" class="btn btn-small">Clear</button>
+      </div>
+      <div id="activity-log" class="activity-log"></div>
+    </div>
+
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
