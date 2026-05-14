@@ -33,6 +33,7 @@ body {
   justify-content: center;
   padding: 1rem;
   min-height: 100vh;
+  overflow-x: hidden;
   background: radial-gradient(ellipse at top, #1a2f4a 0%, #0d1b2a 70%);
 }
 
@@ -154,14 +155,29 @@ input:focus { border-color: var(--gold); }
 .hud-timer-fill.urgent { background: var(--red); }
 .hud-timer-text { font-family: var(--font-pixel); font-size: 0.7rem; color: var(--white); min-width: 24px; }
 
-/* CANVAS */
+/* GAME SCREEN — fills full viewport, no scroll */
+#screen-game {
+  max-width: 100%;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  position: fixed;
+  top: 0; left: 0;
+  background: #0a1520;
+}
+#screen-game.active { display: flex; }
+
+/* CANVAS — fills remaining space between HUD and controls */
 #game-canvas {
   display: block;
+  flex: 1;
   width: 100%;
-  max-width: 100vw;
   background: #0a1520;
   image-rendering: pixelated;
   touch-action: none;
+  min-height: 0;
 }
 
 /* MOBILE CONTROLS */
