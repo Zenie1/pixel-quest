@@ -92,7 +92,7 @@ socket.on("new_question", ({ questionIndex, total, question, options, timeLimit 
   document.getElementById("mg-intro-question").textContent = question;
   showScreen("screen-minigame-intro");
 
-  let sec = 3;
+  let sec = 6;
   document.getElementById("mg-intro-timer").textContent = sec;
   document.getElementById("mg-countdown-fill").style.width = "100%";
   const bar = document.getElementById("mg-countdown-fill");
@@ -101,7 +101,7 @@ socket.on("new_question", ({ questionIndex, total, question, options, timeLimit 
     sec--;
     const el = document.getElementById("mg-intro-timer");
     if (el) el.textContent = sec;
-    if (bar) bar.style.width = `${(sec / 3) * 100}%`;
+    if (bar) bar.style.width = `${(sec / 6) * 100}%`;
     if (sec <= 0) {
       clearInterval(tick);
       launchMiniGame(questionIndex, total, question, options, timeLimit);
@@ -114,10 +114,17 @@ function launchMiniGame(qIndex, total, question, options, timeLimit) {
   document.getElementById("hud-qnum").textContent = `Q${qIndex + 1} of ${total}`;
 
   const canvas = document.getElementById("game-canvas");
-  const W = Math.min(window.innerWidth, 600);
-  const H = Math.min(window.innerHeight - 120, 420);
+  // Measure available space after HUD and mobile controls render
+  const hud = document.querySelector(".game-hud");
+  const mc  = document.getElementById("mobile-controls");
+  const HUD_H = hud ? hud.offsetHeight : 52;
+  const MC_H  = mc  ? mc.offsetHeight  : 90;
+  const W = window.innerWidth;
+  const H = Math.max(280, window.innerHeight - HUD_H - MC_H - 4);
   canvas.width  = W;
   canvas.height = H;
+  canvas.style.width  = W + "px";
+  canvas.style.height = H + "px";
 
   const instructions = [
     "◀ ▶ Move  |  Catch the FREE tool!",
