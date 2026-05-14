@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pixel Quest — The Access Chronicles</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
   <script src="/socket.io/socket.io.js"></script>
 </head>
 <body class="player-body">
 
-  <!-- ══ SCREEN: LOBBY ══ -->
+  <!-- LOBBY -->
   <div id="screen-lobby" class="screen active">
     <div class="card lobby-card">
       <div class="pixel-logo">🎮</div>
       <h1 class="game-title">PIXEL QUEST</h1>
       <p class="game-subtitle">The Access Chronicles</p>
-      <p class="game-topic">Topic: Educational Access &amp; Skill Development in CG</p>
-
+      <p class="game-topic">Educational Access &amp; Skill Development in CG</p>
       <div class="avatar-picker">
         <p class="label">Pick your character</p>
         <div class="avatar-grid">
@@ -27,31 +26,24 @@
         </div>
         <p id="avatar-label" class="avatar-name">The Self-Taught Wizard</p>
       </div>
-
-      <input id="name-input" type="text" placeholder="Enter your name..." maxlength="20" autocomplete="off" />
+      <input id="name-input" type="text" placeholder="Enter your name..." maxlength="20" autocomplete="off"/>
       <button id="join-btn" class="btn btn-primary">JOIN GAME</button>
-
       <p id="lobby-error" class="error-msg hidden"></p>
     </div>
   </div>
 
-  <!-- ══ SCREEN: WAITING ROOM ══ -->
+  <!-- WAITING -->
   <div id="screen-waiting" class="screen">
     <div class="card waiting-card">
       <div class="player-avatar-display" id="my-avatar-display">🧙</div>
       <h2 id="my-name-display">Player</h2>
       <div class="waiting-badge">✅ You're in!</div>
-      <div class="waiting-pulse">
-        <div class="pulse-ring"></div>
-        <p>Waiting for the host to start...</p>
-      </div>
-      <div class="player-count-badge">
-        <span id="player-count">1</span> player(s) in the lobby
-      </div>
+      <div class="waiting-pulse"><div class="pulse-ring"></div><p>Waiting for the host to start...</p></div>
+      <div class="player-count-badge"><span id="player-count">1</span> player(s) in the lobby</div>
     </div>
   </div>
 
-  <!-- ══ SCREEN: COUNTDOWN ══ -->
+  <!-- COUNTDOWN -->
   <div id="screen-countdown" class="screen">
     <div class="countdown-wrap">
       <p class="get-ready">GET READY!</p>
@@ -59,32 +51,47 @@
     </div>
   </div>
 
-  <!-- ══ SCREEN: QUESTION ══ -->
-  <div id="screen-question" class="screen">
-    <div class="question-header">
-      <div class="q-meta">
-        <span id="q-number">Q1</span>
-        <span id="q-of">of 5</span>
+  <!-- MINI-GAME INTRO CARD -->
+  <div id="screen-minigame-intro" class="screen">
+    <div class="card minigame-intro-card">
+      <div id="mg-intro-icon" class="mg-intro-icon">🎮</div>
+      <h2 id="mg-intro-title" class="mg-intro-title">Mini Game!</h2>
+      <p id="mg-intro-desc" class="mg-intro-desc"></p>
+      <div class="mg-question-box">
+        <p class="mg-q-label">❓ Question:</p>
+        <p id="mg-intro-question" class="mg-intro-question"></p>
       </div>
-      <div class="timer-wrap">
-        <svg class="timer-svg" viewBox="0 0 60 60">
-          <circle class="timer-bg" cx="30" cy="30" r="26"/>
-          <circle class="timer-ring" id="timer-ring" cx="30" cy="30" r="26"
-            stroke-dasharray="163.4" stroke-dashoffset="0"/>
-        </svg>
-        <span id="timer-text" class="timer-text">20</span>
-      </div>
+      <div class="mg-countdown-bar"><div id="mg-countdown-fill" class="mg-countdown-fill"></div></div>
+      <p class="mg-starting">Starting in <span id="mg-intro-timer">3</span>s...</p>
     </div>
-
-    <div class="question-body">
-      <p id="question-text" class="question-text"></p>
-    </div>
-
-    <div class="options-grid" id="options-grid"></div>
-    <p id="answer-status" class="answer-status hidden"></p>
   </div>
 
-  <!-- ══ SCREEN: ANSWER RESULT ══ -->
+  <!-- GAME CANVAS -->
+  <div id="screen-game" class="screen">
+    <div class="game-hud">
+      <div class="hud-left">
+        <span id="hud-qnum" class="hud-qnum">Q1 of 5</span>
+        <span id="hud-instruction" class="hud-instruction"></span>
+      </div>
+      <div class="hud-right">
+        <div class="hud-timer-bar"><div id="hud-timer-fill" class="hud-timer-fill"></div></div>
+        <span id="hud-timer-text" class="hud-timer-text">20</span>
+      </div>
+    </div>
+    <canvas id="game-canvas"></canvas>
+    <div id="mobile-controls" class="mobile-controls">
+      <div class="mc-row">
+        <button class="mc-btn" id="mc-left">◀</button>
+        <button class="mc-btn" id="mc-up">▲</button>
+        <button class="mc-btn" id="mc-right">▶</button>
+      </div>
+      <div class="mc-row">
+        <button class="mc-btn mc-action" id="mc-action">🔥 ACTION</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANSWER RESULT -->
   <div id="screen-answer-result" class="screen">
     <div class="card result-card">
       <div id="result-emoji" class="result-emoji">✅</div>
@@ -95,11 +102,11 @@
         <p id="result-fact" class="result-fact"></p>
       </div>
       <p id="result-total" class="result-total">Total: 0 pts</p>
-      <p class="next-hint">Waiting for next question...</p>
+      <p class="next-hint">Waiting for next round...</p>
     </div>
   </div>
 
-  <!-- ══ SCREEN: GAME OVER ══ -->
+  <!-- GAME OVER -->
   <div id="screen-gameover" class="screen">
     <div class="card gameover-card">
       <div class="trophy">🏆</div>
@@ -109,12 +116,10 @@
     </div>
   </div>
 
-  <!-- ══ SCREEN: REJECTED ══ -->
+  <!-- REJECTED -->
   <div id="screen-rejected" class="screen">
-    <div class="card">
-      <div style="font-size:3rem">⏰</div>
-      <h2>Game Already Started</h2>
-      <p>The game is in progress. Hang tight for the next round!</p>
+    <div class="card"><div style="font-size:3rem">⏰</div>
+      <h2>Game Already Started</h2><p>Hang tight for the next round!</p>
     </div>
   </div>
 
